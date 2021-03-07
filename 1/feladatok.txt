@@ -1,0 +1,3 @@
+IDU27K, A/2., B/2., C/1.
+Ladoval a B2 közös
+https://colab.research.google.com/drive/194nhiqCynrP-jCeHWmVDYoyuYQzPems5?usp=sharing#scrollTo=Ry_X8qEloURq

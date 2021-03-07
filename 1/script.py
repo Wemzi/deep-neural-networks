@@ -1,46 +1,66 @@
 import numpy as np
 
-
-print("Hello World")
-
-a = np.array([[2,3,4],[1,5,8]], dtype=np.int32)   # create array
-b = np.array([[3,2,9],[2,6,5]], dtype=np.int32)   # create array
-
-print("The 'a' array:\n", a)
-print("The 'b' array:\n", b)
-print("Sum of the two arrays, elementwise:\n", a + b)
-print("Multiplying all elements of 'a' by 2:\n", 2*a)
-print("Adding up all elements of array 'a'. The sum is:", np.sum(a))
+class StudentMissingException(Exception):
+    pass
 
 
-a = np.array([[2,3,4],[1,5,8]], dtype=np.int32)
-
-print("The shape of the array:", a.shape)   # a tuple
-print("The data type of the array:", a.dtype)   # the type of the elements
-print("The number of axes (dimensions of the array):", a.ndim)   # a.k.a length of the shape tuple
-print("The size of the array (total number of elements):", a.size)   # the product of the shape
-print("Length along the first axis:", a.shape[0])
-print("Length along the first axis:", len(a))   # len() built-in python function
-
-print("The strides of the array", a.strides)  # tells us how many bytes do we need to move in
-                                              #   the memory to increase index along each axis
-  
 
 
-a = np.arange(6, dtype=np.int32)
-print("The 'a' array:\n", a)
-print("   ... its shape is", a.shape)   # a tuple
+class Gradebook: 
+    def __init__(self):
+        self.grades = dict()
 
-b = a.reshape((2, 3))   # reshape to 2D shape: (2, 3)
-print("\nThe 'a' array reshaped to 2D shape (2, 3):\n", b)
-print("   ... its shape is", b.shape)
 
-# We modify an item in the original array
-a[0] = 42
-print("\nThe modified 'a' array:\n", a)
-print("The 2D 'b' view of the 'a' array is also modified:\n", b)
+    def add_student(self,student):
+            self.grades[student]=list()
 
-# Now we modify an item in the view array
-b[1,1] = 99
-print("\nThe content of the 'a' array after 2nd modification:\n", a)
-print("The 'b' view after 2nd modification:", b)
+    def add_grade(self,student,grade):
+        if student not in self.grades:
+            raise  StudentMissingException("Student not found")
+        add_to_this_student = self.grades[student]
+        add_to_this_student.append(grade)
+
+    def get_all_students(self):
+        returnable = list(self.grades.keys())
+        returnable.sort()
+        return returnable
+
+    def get_student_grades(self,student):
+        if student not in self.grades:
+          raise StudentMissingException("Student not found")
+        returnable = self.grades[student]
+        return returnable
+
+    def get_students_with_many_5s(self):
+        c5=0
+        cother=0
+        out = list()
+        for student in self.grades:
+            for grade in self.grades[student]:
+                if grade == 5:
+                    c5 += 1
+                else:
+                    cother +=1
+            if c5 > cother :
+                out.append(student)
+            cother = 0
+            c5 = 0 
+
+        return out
+
+    def get_avarage_grade_per_student(self):
+        summa = 0
+        c = 0
+        out = dict()
+        for student in self.grades:
+            for grade in self.grades[student]:
+                c += 1
+                summa += grade
+            if c != 0:
+                average = summa / c
+            else:
+                average = 0
+            out[student] = average
+            summa = 0
+            c = 0
+        return out

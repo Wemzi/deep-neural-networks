@@ -5,7 +5,7 @@ import tensorflow.keras.optimizers
 import tensorflow.keras.layers
 import tensorflow.keras.activations
 import tensorflow.keras.callbacks
-import kerastuner as kt
+import keras_tuner as kt
 print("hello")
 import matplotlib.pyplot as plt
 
